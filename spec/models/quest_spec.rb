@@ -37,4 +37,19 @@ describe Quest, type: :model do
       }.to raise_error(ActiveRecord::RecordInvalid, /Title can't be blank/)
     end
   end
+
+  describe "delete quest" do
+    let!(:quest) { Quest.create!(title: "Quest to be deleted") }
+
+    it "can be deleted" do
+      expect {
+        quest.destroy
+      }.to change(Quest, :count).by(-1)
+    end
+
+    it "cannot be found after deletion" do
+      quest.destroy
+      expect { Quest.find(quest.id) }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
 end
