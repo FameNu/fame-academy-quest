@@ -1,5 +1,5 @@
 class QuestsController < ApplicationController
-  before_action :set_quest, only: [ :update ]
+  before_action :set_quest, only: [ :update, :destroy ]
 
   def create
     quest = Quest.new(quest_params)
@@ -16,6 +16,8 @@ class QuestsController < ApplicationController
   end
 
   def destroy
+    @quest.destroy
+    redirect_to root_path
   end
 
   private
