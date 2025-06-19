@@ -20,4 +20,23 @@ describe "Quests", type: :request do
       expect(flash[:alert]).to eq("Failed to create quest.")
     end
   end
+
+  describe "PATCH /quests/:id" do
+    let!(:quest) { Quest.create!(title: "Existing Quest") }
+
+    it "can't update title" do
+      patch quest_path(quest), params: { quest: { title: "Updated Quest" } }
+      quest.reload
+      expect(quest.title).to eq("Existing Quest")
+      expect(response).to redirect_to(root_path)
+    end
+
+    it "does not update a quest with invalid attributes" do
+      patch quest_path(quest), params: { quest: { title: nil } }
+      expect(response).to redirect_to(root_path)
+
+      quest.reload
+      expect(quest.title).to eq("Existing Quest")
+    end
+  end
 end
