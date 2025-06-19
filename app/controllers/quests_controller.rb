@@ -21,8 +21,9 @@ class QuestsController < ApplicationController
 
   def destroy
     @quest.destroy
-    # redirect_to root_path
-    render turbo_stream: turbo_stream.remove("quest_#{@quest.id}")
+    render turbo_stream: [
+      turbo_stream.update("display", partial: "pages/display", locals: { quests: Quest.all })
+    ]
   end
 
   private
