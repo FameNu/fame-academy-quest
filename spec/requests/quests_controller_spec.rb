@@ -46,4 +46,37 @@ describe QuestsController, type: :controller do
       }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
+
+  describe "DELETE #destroy" do
+  let!(:quest) { Quest.create!(valid_attributes) }
+
+  it "deletes the quest and redirects to the root path" do
+    expect {
+      delete :destroy, params: { id: quest.id }
+    }.to change(Quest, :count).by(-1)
+    expect(response).to redirect_to(root_path)
+  end
+
+  it "not assigns quest id, number of Quest will not change" do
+    quest_before_delete = Quest.count
+    expect {
+      delete :destroy, params: { id: "" }
+    }.to raise_error(ActiveRecord::RecordNotFound)
+    expect(Quest.count).to eq(quest_before_delete)
+  end
+
+  it "delete quest with same id will not change the number of Quest" do
+    atr = { title: "Another Quest" }
+    Quest.create!(atr)
+    expect {
+      delete :destroy, params: { id: quest.id }
+    }.to change(Quest, :count).by(-1)
+
+    quest_before_delete_second_time = Quest.count
+    expect {
+      delete :destroy, params: { id: quest.id }
+    }.to raise_error(ActiveRecord::RecordNotFound)
+    expect(Quest.count).to eq(quest_before_delete_second_time)
+  end
+  end
 end
