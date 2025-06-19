@@ -9,6 +9,8 @@ describe QuestsController, type: :controller do
       }.to change(Quest, :count).by(1)
       expect(response).to redirect_to(root_path)
       expect(flash[:notice]).to eq("Quest was successfully created.")
+      expect(Quest.last.title).to eq("New Quest")
+      expect(Quest.last.completed).to eq(false)
     end
 
     it "does not create a new quest with invalid attributes" do
