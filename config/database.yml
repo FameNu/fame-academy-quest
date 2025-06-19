@@ -1,15 +1,18 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: <%= ENV['DATABASE_HOST'] %>
+  username: <%= ENV['DATABASE_USERNAME'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+  pool: <%= ENV["RAILS_MAX_THREADS"] || 5 %>
 
 
 development:
   <<: *default
-  database: fame_academy_quest_development
+  database: <%= ENV['DATABASE_NAME'] %>
 test:
   <<: *default
-  database: fame_academy_quest_test
+  database: <%= ENV['DATABASE_TEST_NAME'] %>
 production:
   primary: &primary_production
     <<: *default
