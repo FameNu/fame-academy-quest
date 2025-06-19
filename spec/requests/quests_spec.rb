@@ -39,4 +39,15 @@ describe "Quests", type: :request do
       expect(quest.title).to eq("Existing Quest")
     end
   end
+
+  describe "DELETE /quests/:id" do
+    let!(:quest) { Quest.create!(title: "Quest to be deleted") }
+
+    it "deletes a quest" do
+      expect {
+        delete quest_path(quest)
+      }.to change(Quest, :count).by(-1)
+      expect(response).to redirect_to(root_path)
+    end
+  end
 end
