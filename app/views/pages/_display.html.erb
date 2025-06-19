@@ -1,0 +1,9 @@
+<% if quests.any? %>
+  <ul class="list min-h-full w-full pt-2 overflow-hidden">
+    <% sorted_quests(quests).each do |quest| %>
+      <%= render 'pages/card', quest: quest %>
+    <% end %>
+  </ul>
+<% else %>
+  <%= render 'pages/empty_card' %>
+<% end %>

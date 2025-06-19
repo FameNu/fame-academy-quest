@@ -2,11 +2,15 @@ class QuestsController < ApplicationController
   before_action :set_quest, only: [ :update, :destroy ]
 
   def create
-    quest = Quest.new(quest_params)
-    if quest.save
-      redirect_to root_path, notice: "Quest was successfully created."
+    @new_quest = Quest.new(quest_params)
+    if @new_quest.save
+      @quests = Quest.all
+      render turbo_stream: [
+        turbo_stream.update("display", partial: "pages/display", locals: { quests: @quests }),
+        clean_form
+      ]
     else
-      redirect_to root_path, alert: "Failed to create quest."
+      render turbo_stream: clean_form
     end
   end
 
@@ -17,7 +21,8 @@ class QuestsController < ApplicationController
 
   def destroy
     @quest.destroy
-    redirect_to root_path
+    # redirect_to root_path
+    render turbo_stream: turbo_stream.remove("quest_#{@quest.id}")
   end
 
   private
@@ -27,5 +32,12 @@ class QuestsController < ApplicationController
 
     def set_quest
       @quest = Quest.find(params[:id])
+    end
+
+    def clean_form
+      turbo_stream.update(
+        "new_quest_form",
+        partial: "pages/form",
+        locals: { new_quest: Quest.new })
     end
 end

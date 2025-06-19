@@ -18,21 +18,12 @@
   <div class="divider"></div>
 </header>
 
-<section class="sticky top-0 z-10 bg-white sm:pt-2 pb-2">
-  <%= form_with class: "flex justify-between flex-col sm:flex-row gap-2 sm:gap-4", model: @new_quest, url: quests_path do |form| %>
-    <%= form.text_field :title, placeholder: "Enter quest title", class: "input w-full" %>
-    <%= form.submit "Create Quest", class: "btn btn-primary" %>
-  <% end %>
-</section>
+<%= turbo_frame_tag "new_quest_form" do %>
+  <%= render 'form', new_quest: @new_quest %>
+<% end %>
 
 <main>
-  <% if @quests.any? %>
-    <ul class="list min-h-full w-full pt-2 overflow-hidden">
-      <% @quests.each do |quest| %>
-        <%= render 'card', quest: quest %>
-      <% end %>
-    </ul>
-  <% else %>
-    <%= render 'empty_card' %>
+  <%= turbo_frame_tag "display" do %>
+    <%= render 'display', quests: @quests %>
   <% end %>
 </main>
