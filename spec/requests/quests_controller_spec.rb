@@ -25,4 +25,25 @@ describe QuestsController, type: :controller do
       expect(flash[:alert]).to eq("Failed to create quest.")
     end
   end
+
+  describe "PATCH #update" do
+    let!(:quest) { Quest.create!(valid_attributes) }
+
+    it "updates the quest's completed status" do
+      expect {
+        patch :update, params: { id: quest.id }
+      }.to change { quest.reload.completed }.from(false).to(true)
+    end
+
+    it "redirects to the root path after updating" do
+      patch :update, params: { id: quest.id }
+      expect(response).to redirect_to(root_path)
+    end
+
+    it "not assigns quest id" do
+      expect {
+        patch :update, params: { id: "" }
+      }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
 end
