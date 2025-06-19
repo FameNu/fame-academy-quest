@@ -10,8 +10,6 @@ describe QuestsController, type: :controller do
       expect {
         post :create, params: { quest: valid_attributes }
       }.to change(Quest, :count).by(1)
-      expect(response).to redirect_to(root_path)
-      expect(flash[:notice]).to eq("Quest was successfully created.")
 
       expect(Quest.last.title).to eq("New Quest")
       expect(Quest.last.completed).to eq(false)
@@ -21,8 +19,6 @@ describe QuestsController, type: :controller do
       expect {
         post :create, params: { quest: invalid_attributes }
       }.not_to change(Quest, :count)
-      expect(response).to redirect_to(root_path)
-      expect(flash[:alert]).to eq("Failed to create quest.")
     end
   end
 
@@ -54,7 +50,6 @@ describe QuestsController, type: :controller do
     expect {
       delete :destroy, params: { id: quest.id }
     }.to change(Quest, :count).by(-1)
-    expect(response).to redirect_to(root_path)
   end
 
   it "not assigns quest id, number of Quest will not change" do

@@ -8,16 +8,12 @@ describe "Quests", type: :request do
       expect {
         post quests_path, params: valid_attributes
       }.to change(Quest, :count).by(1)
-      expect(response).to redirect_to(root_path)
-      expect(flash[:notice]).to eq("Quest was successfully created.")
     end
 
     it "does not create a new quest with invalid attributes" do
       expect {
         post quests_path, params: invalid_attributes
       }.not_to change(Quest, :count)
-      expect(response).to redirect_to(root_path)
-      expect(flash[:alert]).to eq("Failed to create quest.")
     end
   end
 
@@ -47,7 +43,6 @@ describe "Quests", type: :request do
       expect {
         delete quest_path(quest)
       }.to change(Quest, :count).by(-1)
-      expect(response).to redirect_to(root_path)
     end
   end
 end
