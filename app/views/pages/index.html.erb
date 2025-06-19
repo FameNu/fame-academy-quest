@@ -1,4 +1,38 @@
-<div>
-  <h1 class="font-bold text-4xl">Pages#index</h1>
-  <p>Find me in app/views/pages/index.html.erb</p>
-</div>
+<header class="text-center pt-16">
+  <div class="card card-side shadow-sm">
+    <figure class="w-40 sm:w-48">
+      <%= image_tag "my-profile.jpg", alt: "Fame's Quest Image", class: "" %>
+    </figure>
+    <div class="card-body justify-end sm:justify-between">
+      <div>
+        <h1 class="font-bold text-xl sm:text-3xl text-start">Fame's Quest</h1>
+        <h6 class="sm:font-bold text-md text-start">Phuwamet Panjachalermrat</h6>
+      </div>
+
+      <div class="card-actions justify-end">
+        <%= link_to "Fame's Brag Document", brag_path, class: "btn btn-info mt-4" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+</header>
+
+<section class="sticky top-0 z-10 bg-white sm:pt-2 pb-2">
+  <%= form_with class: "flex justify-between flex-col sm:flex-row gap-2 sm:gap-4", model: @new_quest, url: quests_path do |form| %>
+    <%= form.text_field :title, placeholder: "Enter quest title", class: "input w-full" %>
+    <%= form.submit "Create Quest", class: "btn btn-primary" %>
+  <% end %>
+</section>
+
+<main>
+  <% if @quests.any? %>
+    <ul class="list min-h-full w-full pt-2 overflow-hidden">
+      <% @quests.each do |quest| %>
+        <%= render 'card', quest: quest %>
+      <% end %>
+    </ul>
+  <% else %>
+    <%= render 'empty_card' %>
+  <% end %>
+</main>
