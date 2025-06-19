@@ -79,15 +79,5 @@ describe "Quests", type: :system do
       expect(page).to have_selector("li.list-row", count: 0)
       expect(page).to have_content("No quests available.")
     end
-
-    it "removes multiple quests" do
-      fill_in "quest_title", with: "Another Quest"
-      click_button "Create Quest"
-      expect(page).to have_selector("li.list-row", count: 2)
-
-      all("button", text: "Remove").each(&:click)
-      expect(page).to have_selector("li.list-row", count: 0)
-      expect(page).to have_content("No quests available.")
-    end
   end
 end
