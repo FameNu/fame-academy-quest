@@ -1,0 +1,8 @@
+<li class="list-row flex justify-between items-center gap-2">
+  <%= form_with url: quest_path(quest), method: :patch, local: true, class: "flex-1 flex items-center justify-start gap-2 w-auto" do |form| %>
+    <%= form.check_box :completed, checked: quest.completed, class: "checkbox", onchange: "this.form.submit()" %>
+    <%= form.label :title, quest.title, class: "max-w-4/5 font-bold text-lg md:text-xl #{quest.completed && 'line-through'}" %>
+  <% end %>
+
+  <%= button_to "Remove", quest_path(quest), method: :delete, class: "btn btn-sm btn-error", data: { confirm: "Are you sure?" } %>
+</li>
