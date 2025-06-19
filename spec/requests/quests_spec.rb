@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Quests", type: :request do
+describe "Quests", type: :request do
   let(:valid_attributes) { { quest: { title: "New Quest" } } }
   let(:invalid_attributes) { { quest: { title: nil } } }
   describe "POST /quests" do\
