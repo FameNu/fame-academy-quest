@@ -14,4 +14,27 @@ describe Quest, type: :model do
       expect(quest.completed).to eq(false)
     end
   end
+
+  describe "validations" do
+    it "is valid with a title" do
+      quest = Quest.new(title: "Valid Quest")
+      expect(quest).to be_valid
+    end
+
+    it "is invalid without a title" do
+      quest = Quest.new(title: nil)
+      expect(quest).not_to be_valid
+    end
+
+    it "is invalid with a blank title" do
+      quest = Quest.new(title: "")
+      expect(quest).not_to be_valid
+    end
+
+    it "can't be created with a nil title" do
+      expect {
+        Quest.create!(title: nil)
+      }.to raise_error(ActiveRecord::RecordInvalid, /Title can't be blank/)
+    end
+  end
 end
