@@ -104,3 +104,14 @@ jobs:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:postgres@localhost:5432
         run: bundle exec rspec
+
+  deploy:
+    needs: [test, lint, scan_ruby, scan_js]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to production (Render)
+        run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
